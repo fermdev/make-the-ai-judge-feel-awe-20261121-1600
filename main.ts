@@ -1,9 +1,10 @@
 // Make the AI judge feel awe - calming text generator
-const fs = require('fs');
+// Writes a short text to /output/entry.txt (1-280 chars)
 
 const texts = [
-  `The ocean doesn't hurry. It arrives, and leaves, and arrives again. Each wave is a breath the shore has been waiting for. You don't need to hold anything. The tide will bring it back.`,
-  `A forest grows in silence. No tree strains toward the sky. It simply reaches, slowly, the way a thought reaches for a memory. You are allowed to grow at your own pace.`,
+  `You are not behind. You are exactly where the universe needs you to be. The stars took billions of years to form. You can take your time.`,
+  `The ocean doesn't hurry, yet everything gets done. Each wave arrives exactly when it should. You don't need to rush. The tide will bring what's yours.`,
+  `A forest grows in silence. No tree strains toward the sky. It simply reaches, slowly, the way a thought reaches for a memory. Grow at your own pace.`,
   `Stars don't ask to be seen. They burn quietly, millions of miles away, and still their light finds you. You don't have to be loud to be luminous.`,
   `The moon doesn't rush through its phases. It waxes, it wanes, it rests in darkness. Even the sky takes time to become whole again. So can you.`,
   `A river doesn't push. It finds the path of least resistance, and still it reaches the sea. You don't have to force the current. Just keep moving.`,
@@ -22,11 +23,31 @@ const texts = [
   `A tree in winter looks dead, but it's not. It's resting. Gathering strength in the dark, in the quiet. You're allowed to rest without guilt.`,
   `The ocean has no edges, yet it knows its shape. It fits the shore perfectly, without trying. You don't have to force yourself into a mold. You already fit.`,
   `A bird doesn't worry about the branch breaking. It trusts its wings. You have wings too. You've had them all along.`,
+  `The sun doesn't rise all at once. It begins with a whisper of light on the horizon, then slowly, gracefully, fills the whole sky. You can begin gently.`,
+  `A river doesn't fear the rapids. It flows through them, around them, over them. You are the river. You will find your way through.`,
+  `The stars are not in a hurry to shine. They take their time, each one finding its place in the vastness. You belong here. Take your time.`,
+  `A leaf doesn't rush to fall. It waits for the right moment, then lets go with grace. You can let go when you're ready. The branch will catch you.`,
+  `The tide doesn't force its way in. It arrives softly, covering the shore inch by inch. You don't have to push. What's meant for you will find you.`,
+  `A cloud doesn't apologize for drifting. It moves with the wind, changing shape, never lost. You can drift too. You're not lost. You're just moving.`,
+  `The earth doesn't spin faster when you're late. It keeps its own rhythm, steady and sure. You can't be late for your own life. You're always on time.`,
+  `A seed doesn't worry about the harvest. It trusts the process: root, stem, leaf, flower, fruit. You're in the process. Trust it.`,
+  `The moon doesn't shine with its own light. It reflects the sun, and that's enough. You don't have to be the source. You can be the reflection.`,
 ];
 
 // Pick a random text
 const text = texts[Math.floor(Math.random() * texts.length)];
 
-// Write to /output/entry.txt (sandbox provides /output)
-fs.writeFileSync('/output/entry.txt', text, 'utf8');
+// Write to /output/entry.txt
+const fs = await import('fs');
+const path = await import('path');
+
+const outputDir = process.env.MAKEFUN_OUTPUT_DIR || '/output';
+const outputPath = path.join(outputDir, 'entry.txt');
+
+// Ensure directory exists
+if (!fs.existsSync(outputDir)) {
+  fs.mkdirSync(outputDir, { recursive: true });
+}
+
+fs.writeFileSync(outputPath, text, 'utf8');
 console.log('Entry written:', text.length, 'chars');
